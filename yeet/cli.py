@@ -21,7 +21,7 @@ async def crawl(
                 level=level
             )
     for item in urls:
-        crawler.add(item)
+        crawler.add((item,0))
     await crawler.run()
 
 @app.command()
