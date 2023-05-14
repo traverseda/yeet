@@ -5,8 +5,13 @@ from loguru import logger
 from yeet.crawler import Crawler, sessiondir
 from typing import List
 from pathlib import Path
+import sys, os
 
 app = typer.Typer()
+
+logger.remove()
+logger.add(sys.stderr, level=os.getenv('yeet_loglevel','INFO'))
+
 
 async def crawl(
             urls: List[str],
@@ -21,6 +26,8 @@ async def crawl(
                 level=level
             )
     for item in urls:
+        crawler.add_allowed_host(item)
+        crawler.add_allowed_root(item)
         crawler.add((item,0))
     await crawler.run()
 
